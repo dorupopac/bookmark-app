@@ -10,6 +10,58 @@
   <title>Bookmark App</title>
 </head>
 <body>
-  
+  <!-- Open Modal -->
+  <h1 id="show-modal">Add Bookmark</h1>
+  <!-- Bookmarks -->
+  <div class="main-container">
+    <div class="container" id="bookmarks-container">
+      <div class="item">
+        <span id="delete-bookmark" title="Delete Bookmark">&#10005;</span>
+        <div class="name">
+          <img src="https://s2.googleusercontent.com/s2/favicons?domain=www.stackoverflow.com" alt="Favicon">
+          <a href="#" target="_blank">Stackoverflow</a>
+        </div>
+      </div>
+      <div class="item">
+        <span id="delete-bookmark" title="Delete Bookmark">&#10005;</span>
+        <div class="name">
+          <img src="https://s2.googleusercontent.com/s2/favicons?domain=www.stackoverflow.com" alt="Favicon">
+          <a href="#" target="_blank">Stackoverflow</a>
+        </div>
+      </div>
+      <div class="item">
+        <span id="delete-bookmark" title="Delete Bookmark">&#10005;</span>
+        <div class="name">
+          <img src="https://s2.googleusercontent.com/s2/favicons?domain=www.stackoverflow.com" alt="Favicon">
+          <a href="#" target="_blank">Stackoverflow</a>
+        </div>
+      </div>
+    </div>
+    <img src="illustration.svg" id="illustration" alt="">
+  </div>
+  <!-- Modal Window -->
+  <div class="modal-container show-modal" id="modal">
+    <div class="modal">
+      <i class="fas fa-times close-icon" id="close-modal"></i>
+      <div class="modal-header">
+        <h3>Add Bookmark</h3>
+      </div>
+      <div class="modal-content">
+        <form id="bookmark">
+          <!-- Website Name -->
+          <div class="form-group">
+            <label for="website-name" class="form-label">Website Name</label>
+            <input type="text" class="form-input" id="website-name">
+          </div>
+          <!-- Website URL -->
+          <div class="form-group">
+            <label for="website-url" class="form-label">Website URL</label>
+            <input type="text" class="form-input" id="website-url">
+          </div>
+          <button type="submit">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

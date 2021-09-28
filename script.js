@@ -41,19 +41,25 @@ const validate = (nameValue, urlValue) => {
 
 // Build Bookmarks DOM
 const buildBookmarks = () => {
+  // Remove all bookmark elements
+  bookmarksContainer.innerHTML = '';
+
   bookmarks.forEach(bookmark => {
     const { name, url } = bookmark;
-    console.log(name, url);
     const html = `
       <div class="item">
-        <span id="delete-bookmark" title="Delete Bookmark">&#10005;</span>
+        <i class="fas fa-times" id="delete-bookmark" title="Delete Bookmark"></i>
         <div class="name">
           <img src="https://s2.googleusercontent.com/s2/favicons?domain=${url}" alt="Favicon">
           <a href="${url}" target="_blank">${name}</a>
         </div>
       </div>
     `;
+
     bookmarksContainer.insertAdjacentHTML('afterbegin', html);
+
+    const deleteBookmarkEl = document.getElementById('delete-bookmark');
+    deleteBookmarkEl.addEventListener('click', () => deleteBookmark(url));
   });
 };
 
@@ -67,12 +73,20 @@ const fetchBookmarks = () => {
     bookmarks = [
       {
         name: 'Name of website',
-        url: 'urlLink',
+        url: 'https://doru-bookmarks.netlify.app',
       },
     ];
     localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
   }
   buildBookmarks();
+};
+
+// Delete Bookmark
+const deleteBookmark = url => {
+  bookmarks = bookmarks.filter(bookmark => bookmark.url !== url);
+  // Update bookmarks array in localstorage, repopulate DOM
+  localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+  fetchBookmarks();
 };
 
 // Handle Data from Form

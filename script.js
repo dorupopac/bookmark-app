@@ -6,7 +6,7 @@ const websiteNameEl = document.getElementById('website-name');
 const websiteUrlEl = document.getElementById('website-url');
 const bookmarksContainer = document.getElementById('bookmarks-container');
 
-let bookmarks = [];
+let bookmarks = {};
 
 // Show Modal, Focus on Input
 const showModal = () => {
@@ -43,9 +43,9 @@ const validate = (nameValue, urlValue) => {
 const buildBookmarks = () => {
   // Remove all bookmark elements
   bookmarksContainer.innerHTML = '';
-
-  bookmarks.forEach(bookmark => {
-    const { name, url } = bookmark;
+  // Build bookmarks
+  Object.keys(bookmarks).forEach(id => {
+    const { name, url } = bookmarks[id];
     const html = `
       <div class="item">
         <i class="fas fa-times" id="delete-bookmark" title="Delete Bookmark"></i>
@@ -57,7 +57,6 @@ const buildBookmarks = () => {
     `;
 
     bookmarksContainer.insertAdjacentHTML('afterbegin', html);
-
     const deleteBookmarkEl = document.getElementById('delete-bookmark');
     deleteBookmarkEl.addEventListener('click', () => deleteBookmark(url));
   });
@@ -70,12 +69,12 @@ const fetchBookmarks = () => {
     bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
   } else {
     // Create bookmarks arr in localstorage
-    bookmarks = [
-      {
-        name: 'Name of website',
-        url: 'https://doru-bookmarks.netlify.app',
-      },
-    ];
+    const url = 'https://doru-bookmarks.netlify.app';
+    bookmarks[url] = {
+      name: 'Name of website',
+      url: 'https://doru-bookmarks.netlify.app',
+    };
+
     localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
   }
   buildBookmarks();
@@ -83,7 +82,8 @@ const fetchBookmarks = () => {
 
 // Delete Bookmark
 const deleteBookmark = url => {
-  bookmarks = bookmarks.filter(bookmark => bookmark.url !== url);
+  if (bookmarks[url]) delete bookmarks[url];
+
   // Update bookmarks array in localstorage, repopulate DOM
   localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
   fetchBookmarks();
@@ -98,14 +98,13 @@ const storeBookmark = e => {
   if (!urlValue.includes('http://', 'https://')) {
     urlValue = `https://${urlValue}`;
   }
-  if (!validate(nameValue, urlValue)) {
-    return false;
-  }
+  if (!validate(nameValue, urlValue)) return;
   const bookmark = {
     name: nameValue,
     url: urlValue,
   };
-  bookmarks.push(bookmark);
+  bookmarks[urlValue] = bookmark;
+  console.log(bookmarks);
   localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
   fetchBookmarks();
   bookmarkForm.reset();
